@@ -21,7 +21,7 @@ jobs:
           cache: maven
       - name: Build
         # if the build fails, run:
-        # git update-index --chmod=+x ./vulnerable-code/mvnw.cmd
-        # git update-index --chmod=+x ./fixed-code/mvnw.cmd
+        # git update-index --chmod=+x ./vulnerable-code/mvnw
+        # git update-index --chmod=+x ./fixed-code/mvnw
         # git update-index --chmod=+x ./util/verify.sh
         run: ./util/verify.sh
