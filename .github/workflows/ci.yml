@@ -20,4 +20,8 @@ jobs:
           distribution: temurin
           cache: maven
       - name: Build
-        run: ./util/verify.sh
+        run: |
+          cd vulnerable-code
+          ./mvnw verify -B
+          cd ../fixed-code
+          ./mvnw verify -B
