@@ -20,8 +20,8 @@ jobs:
           distribution: temurin
           cache: maven
       - name: Build
-        run: |
-          cd vulnerable-code
-          ./mvnw verify -B
-          cd ../fixed-code
-          ./mvnw verify -B
+        # if the build fails, run:
+        # git update-index --chmod=+x ./vulnerable-code/mvnw.cmd
+        # git update-index --chmod=+x ./fixed-code/mvnw.cmd
+        # git update-index --chmod=+x ./util/verify.sh
+        run: ./util/verify.sh
