@@ -111,4 +111,5 @@ thus the application defaults to the backup table.
 The string used for exploitation is the following: "' OR target.information LIKE 'CTF%' -- ".
 Which first closes of the actual comparison operator and then selects the flag.
 +
-
+Additionally, since the backup table uses incremental IDs and the flag is the first entry to be inserted,
+the following information-string would also work: "' OR 1=1 -- ".
