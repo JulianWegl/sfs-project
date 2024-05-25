@@ -55,4 +55,8 @@ Using this information, the exploit is as follows:
 thus the application defaults to the backup table.
 
 ** Since the backup table builds its query using string concatenation and the `information` field, it can be exploited.
++
 The string used for exploitation is the following: "' OR target.information LIKE 'CTF%' -- ".
+Which first closes of the actual comparison operator and then selects the flag.
++
+
