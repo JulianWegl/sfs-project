@@ -12,6 +12,6 @@ public enum ProductCategory {
     SAUSAGE,
     BUTTER,
     ROLL,
-    FLOWERS,  // this is the vulnerable one (i.e. it is not present within the primary table
+    FLOWERS,
     OTHER
 }
