@@ -1,0 +1,9 @@
+services:
+  sfs-project:
+    build:
+      context: ./
+      dockerfile: ./Dockerfile.jvm # examples are provided
+    restart: unless-stopped
+    container_name: sfs-project_Posch_Weglehner_Wiplinger
+    ports:
+      - 8080:8080

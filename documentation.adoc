@@ -115,3 +115,9 @@ Additionally, since the backup table uses incremental IDs and the flag is the fi
 the following information-string would also work: "' OR 1=1 -- ".
 
 * After these steps, the flag is then returned inside the `basicInformation` field of the response.
+
+== Run the application
+Running the application is as simple, as navigating into the folder "./challenge" and executing the command `docker compose up -d`.
+This will then build and run the docker image.
+To interact with the application, the following URL needs to be opened: `http://localhost:8080/q/swagger-ui/#/Product%20Resource/put_sfs_products_save`.
+After this the steps mentioned in section "Exploit" can be taken to find the hidden flag.
