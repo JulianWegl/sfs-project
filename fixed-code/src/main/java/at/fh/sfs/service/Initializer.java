@@ -38,7 +38,7 @@ public class Initializer {
 
     private List<ProductInformationBackup> createBackup() {
         List<ProductInformationBackup> backups = new ArrayList<>();
-        backups.add(new ProductInformationBackup("SVE-CTF{CHALLENGE-COMPLETE-CONGRATULATIONS}"));
+        backups.add(new ProductInformationBackup("CTF{CHALLENGE-COMPLETE-CONGRATULATIONS}"));
 
         backups.addAll(Arrays.stream(ProductCategory.values())
                 .map(cat -> new ProductInformationBackup(
