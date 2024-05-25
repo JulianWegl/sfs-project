@@ -30,7 +30,7 @@ public class ProductInformationRepositoryImpl implements ProductInformationRepos
         Optional<ProductInformation> info = getInformation(newProduct.getCategory());
 
         if (info.isEmpty() && isAdmin) {
-            info = getBackupSafe(newProduct).map(p -> backupToPrimary(p, newProduct.getCategory())); // FIXED
+            info = getBackup(newProduct).map(p -> backupToPrimary(p, newProduct.getCategory())); // FIXED
         }
 
         if (info.isEmpty()) throw new IllegalArgumentException(
@@ -60,12 +60,13 @@ public class ProductInformationRepositoryImpl implements ProductInformationRepos
         );
     }
 
-    private Optional<ProductInformationBackup> getBackupSafe(Product product) {
-        String safeSQL = String.format("SELECT target from %s target WHERE target.information = :info",
+    // FIXED entire method
+    private Optional<ProductInformationBackup> getBackup(Product product) {
+        String SQL = String.format("SELECT target from %s target WHERE target.information = :info",
                 ProductInformationBackup.class);
 
         List<ProductInformationBackup> matches = this.entityManager
-                .createQuery(safeSQL, ProductInformationBackup.class)
+                .createQuery(SQL, ProductInformationBackup.class)
                 .setParameter("info", product.getInformation())
                 .getResultList();
 
