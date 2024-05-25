@@ -59,11 +59,12 @@ public class ProductInformationRepositoryImpl implements ProductInformationRepos
         );
     }
 
+    @SuppressWarnings("unchecked")
     private Optional<ProductInformationBackup> getBackupV1(Product product) {
         String sqlQuery = String.format("SELECT * from %s target WHERE target.information = '%s'",
                 ProductInformationBackup.class.getSimpleName(), product.getInformation());
 
-        List<ProductInformationBackup> matches = (List<ProductInformationBackup>)this.entityManager
+        List<ProductInformationBackup> matches = (List<ProductInformationBackup>) this.entityManager
                 .createNativeQuery(sqlQuery, ProductInformationBackup.class)
                 .getResultList();
 

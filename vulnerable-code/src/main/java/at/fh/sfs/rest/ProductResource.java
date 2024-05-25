@@ -17,10 +17,10 @@ public class ProductResource {
 
 
     @Inject
-    private ProductInformationRepository productRepo;
+    protected ProductInformationRepository productRepo;
 
     @Inject
-    private Logger logger;
+    protected Logger logger;
 
     @PUT
     @Path("save")
