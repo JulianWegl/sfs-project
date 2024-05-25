@@ -1,0 +1,3 @@
+docker compose up -d
+
+http://localhost:8080/q/swagger-ui/#/Product%20Resource/put_sfs_products_save
