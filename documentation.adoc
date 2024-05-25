@@ -24,7 +24,7 @@
 [source,json]
 --
 {
-  "information": "x' OR target.information LIKE 'SVE%' -- ",
+  "information": "x' OR target.information LIKE 'CTF%' -- ",
   "category": "FLOWERS"
 }
 --
