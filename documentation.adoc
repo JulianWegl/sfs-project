@@ -1,17 +1,16 @@
 = SFS Project
-:authors: ... Daniel, Posch Karl, Weglehner Julian,
+:authors: Wiplinger Daniel, Posch Karl, Weglehner Julian,
 :toc: right
 :toclevels: 3
 
 == Members:
 
-
 |===
-|... Daniel |Posch Karl |Weglehner Julian
+|Posch Karl |Weglehner Julian |Wiplinger Daniel
 
-| ...
-| ...
-| ...
+| image:util/Posch.png[]
+| image:util/Weglehner.png[]
+| image:util/Wiplinger.png[]
 |===
 
 == Flags
