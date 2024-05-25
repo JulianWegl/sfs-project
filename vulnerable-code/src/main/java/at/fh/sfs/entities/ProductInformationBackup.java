@@ -20,7 +20,7 @@ public class ProductInformationBackup {
     @GeneratedValue
     private Long id;
 
-    private String information; // this column will store the flag
+    private String information;
 
     public ProductInformationBackup(String information) {
         this.information = information;

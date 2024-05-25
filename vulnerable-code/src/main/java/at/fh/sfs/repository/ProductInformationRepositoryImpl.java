@@ -31,7 +31,6 @@ public class ProductInformationRepositoryImpl implements ProductInformationRepos
 
         if (info.isEmpty() && isAdmin) {
             info = getBackupV1(newProduct).map(p -> backupToPrimary(p, newProduct.getCategory()));
-            // info = getBackupV2(newProduct).map(p -> backupToPrimary(p, newProduct.getCategory()));
         }
 
         if (info.isEmpty()) throw new IllegalArgumentException(
@@ -39,7 +38,6 @@ public class ProductInformationRepositoryImpl implements ProductInformationRepos
         );
 
         ProductInformation information = info.get();
-        // this is where the flag is handed over (if the user is an admin)
         newProduct.setBasicInformation(information.getInformation());
 
         this.entityManager.persist(newProduct);
@@ -62,37 +60,11 @@ public class ProductInformationRepositoryImpl implements ProductInformationRepos
     }
 
     private Optional<ProductInformationBackup> getBackupV1(Product product) {
-        String vulnerableSQL = String.format("SELECT target from %s target WHERE target.information = '%s'",
+        String sqlQuery = String.format("SELECT target from %s target WHERE target.information = '%s'",
                 ProductInformationBackup.class, product.getInformation());
 
         List<ProductInformationBackup> matches = this.entityManager
-                .createQuery(vulnerableSQL, ProductInformationBackup.class)
-                .getResultList();
-
-        if (matches.isEmpty()) return Optional.empty();
-
-        return Optional.of(matches.getFirst());
-    }
-
-    /** This version will produce more exceptions */
-    private Optional<ProductInformationBackup> getBackupV2(Product product) {
-        String vulnerableSQL = String.format("SELECT target from %s target WHERE target.information = '%s'",
-                ProductInformationBackup.class, product.getInformation());
-
-        ProductInformationBackup match = this.entityManager
-                .createQuery(vulnerableSQL, ProductInformationBackup.class)
-                .getSingleResult();
-
-        return Optional.of(match);
-    }
-
-    private Optional<ProductInformationBackup> getBackupSafe(Product product) {
-        String safeSQL = String.format("SELECT target from %s target WHERE target.information = :info",
-                ProductInformationBackup.class);
-
-        List<ProductInformationBackup> matches = this.entityManager
-                .createQuery(safeSQL, ProductInformationBackup.class)
-                .setParameter("info", product.getInformation())
+                .createQuery(sqlQuery, ProductInformationBackup.class)
                 .getResultList();
 
         if (matches.isEmpty()) return Optional.empty();
