@@ -15,8 +15,60 @@
 
 == Flags
 
-// TODO: where are the flags and what are they
+The flag *CTF{CHALLENGE-COMPLETE-CONGRATULATIONS}* is hidden in the in memory *H2* database.
+The tables for the database are initialized in the *Initializer* java class in the *at.fh.sfs.service* package.
+Hence also the row containing the flag is initialized there.
 
+Normally, this flag can not be reached. But there is a backup mechanism built in, if the someone tries to save a new product,
+which refers to a category for which no category information was defined yet. This data is stored in the table *ProductInformation*.
+
+The categories themselfs are defined as a Java enum. Hence the REST request must describe a valid value for this enum.
+The attacker can extract the valid values from an exception, which bubbles up to the REST interface. Therefore it is visible to the attacker in the REST response.
+
+
+.Backup Mechanism
+[source, java]
+--
+Optional<ProductInformation> info = getInformation(newProduct.getCategory());
+
+if (info.isEmpty() && isAdmin) {
+    info = getBackupV1(newProduct).map(p -> backupToPrimary(p, newProduct.getCategory()));
+}
+
+if (info.isEmpty()) throw new IllegalArgumentException(
+        "Cannot retrieve information for product category '" + newProduct.getCategory().name() + "'. Use elevated privileges to retrieve additional information."
+);
+--
+
+As shown in the code snippet above, if no category information is found for the category of the new product, an *IllegalArgumentException* is thrown.
+This exception again bubbles up to the REST interface.
+
+The attacker can then user the information contained within the exception message,
+to get an hint that this issue could be circumvented by having "elevetad privileges". From this info, one can conclude that there must be some kind of admin user.
+
+In this scenario, the *default user admin with password admin* still exists within the database. So after the attacker figured this out, he can provide this credentials to the
+rest request. This then triggers the if-statement from above to become true -> the method *getBackupV1* is called.
+
+The method *getBackupV1* uses a *Hibernate Native Query* to gather data from a backup table. When the attacker knows where to place the text for the
+SQL-Injection (property "Information" of the Product), the table *ProductInformationBackup which contains the flag* can be read (and possibly other tables.)
+
+.Vulnerable native query
+[source,java]
+--
+@SuppressWarnings("unchecked")
+    private Optional<ProductInformationBackup> getBackupV1(Product product) {
+        String sqlQuery = String.format("SELECT * from %s target WHERE target.information = '%s'",
+                ProductInformationBackup.class.getSimpleName(), product.getInformation());
+
+        List<ProductInformationBackup> matches = (List<ProductInformationBackup>) this.entityManager
+                .createNativeQuery(sqlQuery, ProductInformationBackup.class)
+                .getResultList();
+
+        if (matches.isEmpty()) return Optional.empty();
+
+        return Optional.of(matches.getFirst());
+    }
+--
 
 == Exploit
 
