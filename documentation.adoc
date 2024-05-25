@@ -113,3 +113,5 @@ Which first closes of the actual comparison operator and then selects the flag.
 +
 Additionally, since the backup table uses incremental IDs and the flag is the first entry to be inserted,
 the following information-string would also work: "' OR 1=1 -- ".
+
+* After these steps, the flag is then returned inside the `basicInformation` field of the response.
