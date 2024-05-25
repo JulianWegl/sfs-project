@@ -21,4 +21,8 @@ public class ProductInformationBackup {
     private Long id;
 
     private String information; // this column will store the flag
+
+    public ProductInformationBackup(String information) {
+        this.information = information;
+    }
 }
