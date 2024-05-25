@@ -35,7 +35,7 @@ public class ProductInformationRepositoryImpl implements ProductInformationRepos
         }
 
         if (info.isEmpty()) throw new IllegalArgumentException(
-                "Cannot retrieve information for product category " + newProduct.getCategory().name()
+                "Cannot retrieve information for product category '" + newProduct.getCategory().name() + "'. Use elevated privileges to retrieve additional information."
         );
 
         ProductInformation information = info.get();
