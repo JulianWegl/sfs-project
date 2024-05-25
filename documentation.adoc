@@ -72,13 +72,39 @@ SQL-Injection (property "Information" of the Product), the table *ProductInforma
 
 == Exploit
 
+The application exposes only a single endpoint over which the exploit is performed.
+
+The exploit consists of two parts:
+
+. Exploitation of a leftover admin account
+. Exploitation of SQL injection
+
+The endpoint in question takes a product,
+which is defined by its `Category` and `Information` and attaches additional information from an internal data-source.
+
+This additional information is stored in a separate table,
+which does not store information about the `FLOWERS` category.
+
+If the products category is not found within the primary table and if the current user is an `admin`,
+then the backup table is used to retrieve the missing data.
+But this backup-table has the problem that its query is vulnerable to SQL injection.
+
+Using this information, the exploit is as follows:
+
+* The exploiter disguises themselves as an `admin` by setting both the query parameters `userName` and `passwd` to "admin"
+* The exploitative request body is as follows:
++
 .Bad Request
 [source,json]
 --
 {
-  "information": "x' OR target.information LIKE 'CTF%' -- ",
-  "category": "FLOWERS"
+  "category": "FLOWERS",
+  "information": "' OR target.information LIKE 'CTF%' -- "
 }
 --
 
-// TODO: step by step instruction on how to get to the flag
+** The category is set to `FLOWERS`, a category which is not stored within the primary table,
+thus the application defaults to the backup table.
+
+** Since the backup table builds its query using string concatenation and the `information` field, it can be exploited.
+The string used for exploitation is the following: "' OR target.information LIKE 'CTF%' -- ".
