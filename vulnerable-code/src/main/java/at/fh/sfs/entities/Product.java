@@ -1,10 +1,7 @@
 package at.fh.sfs.entities;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.UUID;
 
@@ -14,6 +11,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @Getter
 @Setter
+@ToString
 public class Product {
     @Id
     private UUID id;
