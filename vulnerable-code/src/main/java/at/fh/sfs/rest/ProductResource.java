@@ -17,15 +17,15 @@ public class ProductResource {
 
 
     @Inject
-    private ProductInformationRepository productRepo;
+    protected ProductInformationRepository productRepo;
 
     @Inject
-    private Logger logger;
+    protected Logger logger;
 
     @PUT
     @Path("save")
     @Consumes(MediaType.APPLICATION_JSON)
-    public void save(Product product,
+    public Product save(Product product,
                      @QueryParam("userName") String userName,
                      @QueryParam("passwd") String passwd) {
         if(product == null) {
@@ -34,6 +34,6 @@ public class ProductResource {
         logger.info("ProductResource: received call for product {} with username={}, password={}",
                 product, userName, passwd);
         logger.info("testmsg");
-        productRepo.saveProduct(product, MainResource.checkAdminRights(userName, passwd));
+        return productRepo.saveProduct(product, MainResource.checkAdminRights(userName, passwd));
     }
 }
